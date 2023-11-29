@@ -7,7 +7,7 @@ namespace BookstoreBackend.Controllers
 {
     [ApiController]
     [Route("api/books")]
-    //[Authorize("RequireAdminRole")]
+    [Authorize("RequireAdminRole")]
     public class BookApiController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
