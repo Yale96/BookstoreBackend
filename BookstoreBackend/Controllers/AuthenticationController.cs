@@ -16,6 +16,7 @@ namespace BookstoreBackend.Controllers
             // Voor deze demo gebruik ik een hardcoded user
             // Het is mogelijk om een register endpoint te maken en gebruikers op te slaan in de database, maar voor nu wil ik graag alles binnen een schappelijke tijd afkrijgen
             // Daarnaast zou het netjes zijn om de logica te verplaatsen naar een apparte service en deze los te testen, maar ik maak enkel gebruik van een login methode, dus laat ik het voor nu zo staan.
+            // Er dient behoorlijk wat gemockt te worden om dit te testen, dus hier ga ik op mijn gemak nog even naar kijken.
             if (model.Username == "admin" && model.Password == "password")
             {
                 var claims = new List<Claim>
@@ -39,7 +40,7 @@ namespace BookstoreBackend.Controllers
                 return Ok(new { Message = "Login successful" });
             }
 
-            return Unauthorized(new { Message = "Invalid credentials" });
+            return Unauthorized(new { Message = "Invalid login" });
         }
     }
 }

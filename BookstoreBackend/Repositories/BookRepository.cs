@@ -13,6 +13,7 @@ namespace BookstoreBackend.Repositories
             _context = context;
         }
 
+        // Gebruik IEnumerable voor performance (mocht de db in de toekomst duizenden boeken bevatten bijvoorbeeld)
         public IEnumerable<Book> GetAllBooks()
         {
             return _context.Books.ToList();

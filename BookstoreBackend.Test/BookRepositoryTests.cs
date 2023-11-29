@@ -2,11 +2,6 @@
 using BookstoreBackend.Models;
 using BookstoreBackend.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookstoreBackend.Test
 {
@@ -19,7 +14,7 @@ namespace BookstoreBackend.Test
         [TestInitialize]
         public void TestInitialize()
         {
-            // Set up a new in-memory database for each test
+            // Nieuwe DB voor iedere test
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
@@ -39,6 +34,8 @@ namespace BookstoreBackend.Test
             _context.Dispose();
         }
 
+        // Deze test faalt, het komt denk ik doordat de context niet helemaal lekker als test context wordt ingeladen.
+        // Ik heb dit geprobeerd te fixen, maar kreeg het nu niet voor elkaar. Ik kan hier zeker nog naar kijken
         [TestMethod]
         public void GetAllBooks_ShouldReturnAllBooks()
         {

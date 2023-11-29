@@ -22,14 +22,15 @@ namespace BookstoreBackend.Test
         [TestMethod]
         public void GetAllBooks_ShouldReturnOkResultWithBooks()
         {
-            // Arrange
             mockRepository.Setup(r => r.GetAllBooks())
-                .Returns(new List<Book> { new Book { Id = 1, Title = "Test Book 1" }, new Book { Id = 2, Title = "Test Book 2" } });
+                .Returns(
+                    new List<Book> {
+                        new Book { Title = "Test Book 1", Description = "Test Book 1", Author = "Author 1", NumberOfPages = 101 },
+                        new Book { Title = "Test Book 2", Description = "Test Book 2", Author = "Author 2", NumberOfPages = 202 }
+                });
 
-            // Act
             var result = controller.GetAllBooks() as ObjectResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
             Assert.IsNotNull(result.Value);
@@ -39,30 +40,24 @@ namespace BookstoreBackend.Test
         [TestMethod]
         public void GetBookById_ExistingId_ShouldReturnOkResultWithBook()
         {
-            // Arrange
-            var existingBook = new Book { Id = 1, Title = "Test Book" };
+            var existingBook = new Book { Title = "Test Book 1", Description = "Test Book 1", Author = "Author 1", NumberOfPages = 101 };
             mockRepository.Setup(r => r.GetBookById(1)).Returns(existingBook);
 
-            // Act
             var result = controller.GetBookById(1) as ObjectResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(200, result.StatusCode);
             Assert.IsNotNull(result.Value);
-            Assert.AreEqual("Test Book", (result.Value as Book).Title);
+            Assert.AreEqual("Test Book 1", (result.Value as Book).Title);
         }
 
         [TestMethod]
         public void GetBookById_NonexistentId_ShouldReturnNotFoundResult()
         {
-            // Arrange
             mockRepository.Setup(r => r.GetBookById(999)).Returns((Book)null);
 
-            // Act
             var result = controller.GetBookById(999) as NotFoundResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(404, result.StatusCode);
         }
@@ -70,14 +65,11 @@ namespace BookstoreBackend.Test
         [TestMethod]
         public void AddBook_ValidBook_ShouldReturnCreatedAtActionResult()
         {
-            // Arrange
-            var newBook = new Book { Title = "New Book" };
+            var newBook = new Book { Title = "Test Book 1", Description = "Test Book 1", Author = "Author 1", NumberOfPages = 101 };
             mockRepository.Setup(r => r.AddBook(It.IsAny<Book>()));
 
-            // Act
             var result = controller.AddBook(newBook) as CreatedAtActionResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(201, result.StatusCode);
             Assert.AreEqual("GetBookById", result.ActionName);
@@ -85,18 +77,17 @@ namespace BookstoreBackend.Test
             Assert.IsTrue(result.RouteValues.ContainsKey("id"));
         }
 
+        // Ook deze test faalt, het heeft ook hier met de context te maken waarschijnlijk.
+        // Ik ga hier nog wel even naar kijken.
         [TestMethod]
         public void UpdateBook_ExistingBook_ShouldReturnNoContentResult()
         {
-            // Arrange
-            var existingBook = new Book { Id = 1, Title = "Existing Book" };
+            var existingBook = new Book { Title = "Test Book 1", Description = "Test Book 1", Author = "Author 1", NumberOfPages = 101 };
             mockRepository.Setup(r => r.GetBookById(1)).Returns(existingBook);
             mockRepository.Setup(r => r.UpdateBook(It.IsAny<Book>()));
 
-            // Act
             var result = controller.UpdateBook(1, existingBook) as NoContentResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(204, result.StatusCode);
         }
@@ -104,13 +95,10 @@ namespace BookstoreBackend.Test
         [TestMethod]
         public void UpdateBook_NonexistentBook_ShouldReturnBadRequestResult()
         {
-            // Arrange
             mockRepository.Setup(r => r.GetBookById(999)).Returns((Book)null);
 
-            // Act
             var result = controller.UpdateBook(999, new Book()) as BadRequestResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
         }
@@ -118,15 +106,12 @@ namespace BookstoreBackend.Test
         [TestMethod]
         public void DeleteBook_ExistingId_ShouldReturnNoContentResult()
         {
-            // Arrange
-            var existingBook = new Book { Id = 1, Title = "Existing Book" };
+            var existingBook = new Book { Title = "Test Book 1", Description = "Test Book 1", Author = "Yannick", NumberOfPages = 101 };
             mockRepository.Setup(r => r.GetBookById(1)).Returns(existingBook);
             mockRepository.Setup(r => r.DeleteBook(It.IsAny<int>()));
 
-            // Act
             var result = controller.DeleteBook(1) as NoContentResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(204, result.StatusCode);
         }
@@ -134,13 +119,10 @@ namespace BookstoreBackend.Test
         [TestMethod]
         public void DeleteBook_NonexistentId_ShouldReturnNotFoundResult()
         {
-            // Arrange
             mockRepository.Setup(r => r.GetBookById(999)).Returns((Book)null);
 
-            // Act
             var result = controller.DeleteBook(999) as NotFoundResult;
 
-            // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(404, result.StatusCode);
         }

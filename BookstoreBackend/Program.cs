@@ -14,7 +14,6 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -48,6 +47,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddCors(o => o.AddPolicy(MyAllowSpecificOrigins,
     builder =>
     {
+        // Voeg zowel de Swagger pagina als Svelte pagina's toe aan de cors list
         builder.WithOrigins("https://localhost:44373", "http://localhost:5173")
             .AllowAnyMethod()
             .AllowAnyHeader();

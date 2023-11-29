@@ -18,6 +18,7 @@ namespace BookstoreBackend.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Toevoegen test data
             modelBuilder.Entity<Book>().HasData(
                 new Book { Id = 1, Title = "Test Book 1", Description = "Test Book 1", Author = "Author 1", NumberOfPages = 101 },
                 new Book { Id = 2, Title = "Test Book 2", Description = "Test Book 2", Author = "Author 2", NumberOfPages = 202 },
